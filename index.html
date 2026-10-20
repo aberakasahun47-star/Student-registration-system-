@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Student Registration System</title>
+
+<style>
+:root {
+  --blue:#4f46e5;
+  --nav:#111827;
+  --bg:#f3f5fb;
+  --card:#ffffff;
+  --text:#1e293b;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --shadow:0 8px 25px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:14px;
+}
+body.dark{
+  --bg:#0b1120;
+  --card:#172033;
+  --text:#f1f5f9;
+  --muted:#a3b2c7;
+  --line:#334155;
+  --nav:#080d19;
+  --shadow:0 8px 25px rgba(0,0,0,.18);
+}
+.hidden{display:none!important}
+
+header{
+  background:linear-gradient(120deg,#111827,#312e81,#4338ca);
+  color:white;
+  padding:18px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  box-shadow:0 4px 18px rgba(30,41,59,.15);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:44px;height:44px;border-radius:13px;
+  background:#ffffff20;display:grid;place-items:center;
+  font-size:24px;
+}
+.brand h2{margin:0;font-size:21px;font-weight:800}
+.brand p{margin:2px 0 0;color:#dbeafe;font-size:12px}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.user-pill{
+  border:1px solid #ffffff40;border-radius:30px;
+  padding:8px 12px;color:white;font-size:12px;
+}
+
+button{
+  border:0;padding:10px 14px;border-radius:9px;
+  cursor:pointer;margin:3px;font-weight:700;
+  font-size:12px;transition:.15s;
+}
+button:hover{transform:translateY(-1px);opacity:.94}
+button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.primary{background:#4f46e5;color:white}
+.green{background:#059669;color:white}
+.red{background:#dc2626;color:white}
+.gray{background:#64748b;color:white}
+
+main{max-width:1440px;margin:auto;padding:25px 24px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:23px;
+  border-radius:17px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+.card h2{font-size:21px;margin:0 0 8px;font-weight:800}
+.card h3{font-size:16px;margin-top:0}
+.muted{color:var(--muted)}
+.eyebrow{
+  text-transform:uppercase;letter-spacing:1.3px;
+  color:#6366f1;font-size:10px;font-weight:800;
+  margin:0 0 5px;
+}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+}
+
+nav{
+  display:flex;flex-wrap:wrap;gap:7px;
+  background:var(--card);padding:9px;
+  border:1px solid var(--line);border-radius:14px;
+  margin-bottom:24px;box-shadow:var(--shadow);
+}
+nav button{
+  flex:1 1 auto;min-width:115px;
+  background:transparent;color:var(--muted);
+  border:1px solid transparent;padding:12px 10px;
+  border-radius:10px;
+}
+nav button.active{
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  color:white;box-shadow:0 4px 12px #4f46e540;
+}
+
+.hero{
+  background:linear-gradient(120deg,#312e81,#4f46e5,#818cf8);
+  color:white;border-radius:18px;padding:26px;
+  margin-bottom:20px;position:relative;overflow:hidden;
+}
+.hero h2{font-size:25px;margin:0 0 7px}
+.hero p{color:#e0e7ff;margin:0;max-width:75%}
+.hero .eyebrow{color:#c7d2fe}
+.hero:after{
+  content:"🎓";position:absolute;right:30px;top:18px;
+  font-size:68px;opacity:.18;
+}
+
+.stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin-bottom:20px;
+}
+.stat{
+  padding:21px;border:1px solid var(--line);
+  background:var(--card);border-radius:15px;
+  box-shadow:var(--shadow);color:var(--muted);
+  font-weight:650;position:relative;overflow:hidden;
+}
+.stat:before{
+  content:"";position:absolute;top:0;left:0;
+  width:5px;height:100%;background:#4f46e5;
+}
+.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stat-icon{
+  width:38px;height:38px;border-radius:11px;
+  display:grid;place-items:center;background:#eef2ff;font-size:18px;
+}
+.stat:nth-child(2) .stat-icon{background:#d1fae5}
+.stat:nth-child(3) .stat-icon{background:#fce7f3}
+.stat:nth-child(4) .stat-icon{background:#fef3c7}
+.stat strong{
+  display:block;font-size:32px;line-height:1.3;
+  color:#4f46e5;margin-top:12px;font-weight:800;
+}
+.stat small{font-weight:500;color:var(--muted)}
+
+.grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+label{display:block;font-weight:700;font-size:12px;color:var(--text)}
+input,select{
+  display:block;width:100%;padding:12px 13px;
+  margin-top:6px;margin-bottom:15px;
+  border:1px solid var(--line);border-radius:9px;
+  background:var(--card);color:var(--text);
+  font-family:inherit;font-size:13px;outline:none;
+}
+input:focus,select:focus{
+  border-color:#4f46e5;
+  box-shadow:0 0 0 3px #4f46e51c;
+}
+input::placeholder{color:#94a3b8}
+#photoPreview{
+  width:82px;height:82px;object-fit:cover;
+  display:none;border-radius:50%;
+  border:3px solid #c7d2fe;margin-bottom:14px;
+}
+.notice{
+  padding:14px 16px;background:#4f46e50c;
+  border:1px solid #4f46e526;border-radius:11px;
+  margin:13px 0;color:var(--text);
+}
+
+.tablewrap{
+  width:100%;overflow-x:auto;
+  border:1px solid var(--line);border-radius:11px;margin-top:13px;
+}
+table{width:100%;min-width:800px;border-collapse:collapse;background:var(--card)}
+th,td{
+  padding:13px 11px;border-bottom:1px solid var(--line);
+  text-align:left;font-size:12px;white-space:nowrap;
+}
+th{
+  background:#eef2ff;color:#312e81;font-weight:800;
+  text-transform:uppercase;font-size:10px;letter-spacing:.45px;
+}
+body.dark th{background:#273449;color:#c7d2fe}
+tbody tr:hover{background:#6366f10b}
+tbody tr:last-child td{border-bottom:0}
+.photo{
+  width:40px;height:40px;border-radius:50%;
+  object-fit:cover;border:2px solid var(--line);
+}
+#pages{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;flex-wrap:wrap;margin-top:16px;color:var(--muted);
+}
+#empty{text-align:center;padding:18px;color:var(--muted)}
+
+#loginPage{
+  max-width:440px;margin:7vh auto;padding:30px;
+  border-radius:21px;box-shadow:0 20px 55px #0f172a1f;
+}
+#loginPage h2{color:#4f46e5;font-size:26px;margin-bottom:4px}
+#loginPage .primary{width:100%;padding:13px;font-size:14px;margin:8px 0}
+.login-mark{
+  width:65px;height:65px;margin:0 auto 12px;
+  display:grid;place-items:center;border-radius:18px;
+  background:#eef2ff;font-size:32px;
+}
+#loginMessage,#formMessage,#restoreMessage{font-weight:700}
+.activity-item{padding:12px 0;border-bottom:1px solid var(--line)}
+.activity-item:last-child{border-bottom:0}
+.activity-date{font-size:11px;color:var(--muted)}
+.dept-row{
+  display:flex;justify-content:space-between;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--line);
+}
+.dept-row:last-child{border-bottom:0}
+.bar-track{
+  height:7px;background:var(--line);
+  border-radius:20px;overflow:hidden;margin-top:7px;
+}
+.bar-fill{
+  height:100%;background:linear-gradient(90deg,#4f46e5,#818cf8);
+  border-radius:20px;
+}
+footer{
+  text-align:center;padding:24px 15px;color:var(--muted);
+  border-top:1px solid var(--line);margin-top:20px;font-size:12px;
+}
+footer strong{color:var(--text)}
+
+@media(max-width:900px){
+  main{padding:20px 14px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  header{padding:15px 12px}
+  .brand h2{font-size:16px}
+  .brand-icon{width:38px;height:38px}
+  .header-actions{width:100%;justify-content:flex-end}
+  .user-pill{margin-right:auto}
+  main{padding:13px 9px}
+  .card{padding:16px 12px;border-radius:13px;margin-bottom:15px}
+  .card h2{font-size:18px}
+  .grid{grid-template-columns:1fr;gap:0}
+  .stats{gap:9px}
+  .stat{padding:15px 12px;font-size:11px}
+  .stat strong{font-size:28px}
+  .stat-icon{width:31px;height:31px;font-size:15px}
+  nav{gap:5px;padding:6px}
+  nav button{min-width:0;flex:1 1 30%;padding:10px 5px;font-size:10px}
+  .hero{padding:21px 16px}
+  .hero h2{font-size:21px}
+  .hero p{max-width:90%;font-size:12px}
+  .hero:after{right:12px;top:12px;font-size:43px}
+  #loginPage{margin:30px 10px;padding:23px 16px}
+  button{padding:9px 11px}
+  .section-head{align-items:flex-start}
+}
+@media print{
+  header,nav,button,.no-print,#loginPage,footer{display:none!important}
+  body{background:white!important;color:black!important}
+  main{padding:0;max-width:none}
+  .tab{display:none!important}
+  #reports{display:block!important}
+  .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+  table{min-width:0}
+  th,td{white-space:normal;font-size:9px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">🎓</div>
+    <div>
+      <h2>Student Registration System</h2>
+      <p>Student Management Portal</p>
+    </div>
+  </div>
+  <div id="topButtons" class="header-actions hidden">
+    <span class="user-pill">● Administrator</span>
+    <button class="gray" onclick="toggleDark()">🌙 Theme</button>
+    <button class="red" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<section id="loginPage" class="card">
+  <div class="login-mark">🎓</div>
+  <h2 style="text-align:center">Welcome Back</h2>
+  <p style="text-align:center">Sign in to manage student records</p>
+  <form id="loginForm">
+    <label for="username">Username</label>
+    <input id="username" required placeholder="Enter username">
+    <label for="password">Password</label>
+    <input id="password" type="password" required placeholder="Enter password">
+    <button class="primary">Sign In →</button>
+  </form>
+  <p id="loginMessage"></p>
+  <div class="notice">Demo access: <b>admin</b> / <b>admin123</b></div>
+  <p class="muted" style="text-align:center;font-size:11px">
+    Portfolio learning project · Demo authentication only
+  </p>
+</section>
+
+<main id="app" class="hidden">
+
+<!-- SIX TABS -->
+<nav class="no-print">
+  <button class="active" data-tab="dashboard">▦ Dashboard</button>
+  <button data-tab="students">♙ Students</button>
+  <button data-tab="database">▤ Database</button>
+  <button data-tab="reports">▧ Reports</button>
+  <button data-tab="backup">⇧ Backup</button>
+  <button data-tab="settings">⚙ Settings</button>
+</nav>
+
+<!-- 1. DASHBOARD -->
+<section id="dashboard" class="tab">
+  <div class="hero">
+    <p class="eyebrow">ADMINISTRATION OVERVIEW</p>
+    <h2>Welcome to your dashboard</h2>
+    <p>Manage registrations, monitor student records, and review activity in one place.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-top"><span>Total Students</span><span class="stat-icon">👨‍🎓</span></div>
+      <strong id="total">0</strong><small>Registered records</small>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span>Male Students</span><span class="stat-icon">👨</span></div>
+      <strong id="male">0</strong><small>Male registrations</small>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span>Female Students</span><span class="stat-icon">👩</span></div>
+      <strong id="female">0</strong><small>Female registrations</small>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span>Departments</span><span class="stat-icon">🏢</span></div>
+      <strong id="deptCount">0</strong><small>Active departments</small>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="card">
+      <h3>📊 Students by Department</h3>
+      <div id="departmentStats" class="muted">No records yet.</div>
+    </div>
+    <div class="card">
+      <h3>🕒 Recent Activities</h3>
+      <div id="recentActivities" class="muted">No activities yet.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head">
+      <div><p class="eyebrow">QUICK ACTION</p><h3>Student Management</h3></div>
+      <button class="primary" onclick="openTab('students');resetForm()">＋ Register Student</button>
+    </div>
+    <p class="muted">Register new students, search records, view details, or edit and delete entries.</p>
+  </div>
+</section>
+
+<!-- 2. STUDENTS -->
+<section id="students" class="tab hidden">
+  <div class="card" id="formCard">
+    <p class="eyebrow">STUDENT RECORDS</p>
+    <h2 id="formTitle">＋ Student Registration</h2>
+    <p class="muted">Enter the student's information. Fields marked * are required.</p>
+    <p id="formMessage"></p>
+
+    <form id="studentForm">
+      <div class="grid">
+        <div>
+          <label for="sid">Student ID *</label>
+          <input id="sid" required maxlength="40" placeholder="e.g. CSE001">
+        </div>
+        <div>
+          <label for="name">Full Name *</label>
+          <input id="name" required maxlength="100" placeholder="Student full name">
+        </div>
+        <div>
+          <label for="email">Email Address *</label>
+          <input id="email" type="email" required maxlength="150" placeholder="student@example.com">
+        </div>
+        <div>
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="tel" maxlength="25" placeholder="+251...">
+        </div>
+        <div>
+          <label for="gender">Gender</label>
+          <select id="gender">
+            <option value="">Select gender</option>
+            <option>Male</option><option>Female</option><option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="department">Department *</label>
+          <select id="department" required>
+            <option value="">Select department</option>
+            <option>Computer Science</option>
+            <option>Information Technology</option>
+            <option>Information Systems</option>
+            <option>Software Engineering</option>
+            <option>Electrical Engineering</option>
+            <option>Accounting</option>
+            <option>Management</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="year">Academic Year *</label>
+          <select id="year" required>
+            <option value="">Select year</option>
+            <option>Year 1</option><option>Year 2</option>
+            <option>Year 3</option><option>Year 4</option><option>Year 5</option>
+          </select>
+        </div>
+        <div>
+          <label for="semester">Semester *</label>
+          <select id="semester" required>
+            <option value="">Select semester</option>
+            <option>Semester 1</option><option>Semester 2</option><option>Summer</option>
+          </select>
+        </div>
+        <div>
+          <label for="date">Registration Date *</label>
+          <input id="date" type="date" required>
+        </div>
+        <div>
+          <label for="photo">Student Photo (max 350 KB)</label>
+          <input id="photo" type="file" accept="image/*">
+          <img id="photoPreview" alt="Student photo preview">
+        </div>
+      </div>
+      <button class="primary" id="saveBtn">Save Student</button>
+      <button class="gray" type="button" onclick="resetForm()">Clear Form</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">DIRECTORY</p>
+        <h2>Student List</h2>
+        <p class="muted">View and manage registered students.</p>
+      </div>
+      <span class="user-pill" style="background:#eef2ff;color:#3730a3;border-color:#c7d2fe" id="listCount">0 records</span>
+    </div>
+    <input id="search" aria-label="Search students" placeholder="🔍 Search ID, name, email, phone or department...">
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Photo</th><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Department</th><th>Year</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="studentList"></tbody>
+      </table>
+    </div>
+    <p id="empty">No students registered.</p>
+    <div id="pages"></div>
+  </div>
+</section>
+
+<!-- 3. DATABASE -->
+<section id="database" class="tab hidden">
+  <div class="card">
+    <p class="eyebrow">STORAGE OVERVIEW</p>
+    <h2>🗄️ Database & Login Information</h2>
+    <p><b>Storage type:</b> Browser localStorage</p>
+    <p><b>Records:</b> <span id="dbCount">0</span> students</p>
+    <p><b>Login status:</b> <span id="loginStatus">Signed in</span></p>
+    <p><b>Current browser:</b> This device and browser</p>
+    <div class="notice">This project stores data in your browser, not an online server. Clearing browser data may delete records. Download backups regularly.</div>
+    <button class="primary" onclick="refreshAll()">↻ Refresh Database View</button>
+  </div>
+  <div class="card">
+    <h3>Demo Account</h3>
+    <p>Username: <b>admin</b></p>
+    <p>Password: <b>admin123</b></p>
+    <p class="muted">This login is for demonstration only. A real public system needs secure server-side authentication.</p>
+  </div>
+</section>
+
+<!-- 4. REPORTS -->
+<section id="reports" class="tab hidden">
+  <div class="card">
+    <p class="eyebrow">REPORTING</p>
+    <h2>📄 Student Reports</h2>
+    <p>Total students: <b id="reportTotal">0</b></p>
+    <div id="reportDepartments"></div>
+    <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="green" onclick="exportCSV()">Download CSV Report</button>
+  </div>
+  <div class="card">
+    <h3>Student Report Table</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Department</th><th>Year</th><th>Semester</th><th>Date</th></tr></thead>
+        <tbody id="reportList"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BACKUP -->
+<section id="backup" class="tab hidden">
+  <div class="card">
+    <p class="eyebrow">DATA PROTECTION</p>
+    <h2>💾 Backup & Restore</h2>
+    <p>Download a JSON backup containing student data and activity history.</p>
+    <button class="primary" onclick="exportJSON()">↓ Download JSON Backup</button>
+    <button class="green" onclick="exportCSV()">Export Students to CSV</button>
+    <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+    <h3>Restore from JSON</h3>
+    <p class="muted">Choose a JSON backup file. Restoring replaces the current student list.</p>
+    <input id="restoreFile" type="file" accept=".json,application/json">
+    <button class="primary" onclick="restoreJSON()">Restore Backup</button>
+    <p id="restoreMessage"></p>
+    <div class="notice">Always download a backup before restoring another file.</div>
+  </div>
+  <div class="card">
+    <h3>Activity History</h3>
+    <button class="gray" onclick="exportHistory()">↓ Export History</button>
+    <div class="tablewrap">
+      <table style="min-width:350px">
+        <thead><tr><th>Date & Time</th><th>Action</th></tr></thead>
+        <tbody id="historyList"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 6. SETTINGS -->
+<section id="settings" class="tab hidden">
+  <div class="card">
+    <p class="eyebrow">PREFERENCES</p>
+    <h2>⚙️ Settings</h2>
+    <h3>Appearance</h3>
+    <button class="primary" onclick="toggleDark()">Toggle Dark / Light Mode</button>
+    <p class="muted">Choose a display mode suitable for your device.</p>
+  </div>
+  <div class="card">
+    <h3>System Information</h3>
+    <p>Application: Student Registration System</p>
+    <p>Version: 1.0 Learning Project</p>
+    <p>Layout: Responsive mobile-friendly design</p>
+    <p>Storage: Browser localStorage</p>
+    <p>Features: Registration, search, edit, delete, reports, backup and restore</p>
+  </div>
+  <div class="card">
+    <h3>Data Safety</h3>
+    <p>1. Export JSON backups regularly.</p>
+    <p>2. Do not clear browser storage unless your data is backed up.</p>
+    <p>3. Do not use the demo login for sensitive real student information.</p>
+    <button class="red" onclick="deleteEverything()">Delete All Student Records</button>
+  </div>
+  <div class="card">
+    <h3>Online Hosting</h3>
+    <p class="muted">This HTML file can be hosted as a static website. A shared online database and secure login require a backend service.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <strong>Student Registration System</strong><br>
+  Portfolio Learning Project · Built with HTML, CSS & JavaScript
+</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const STUDENTS_KEY = "srs_tab_students";
+const HISTORY_KEY = "srs_tab_history";
+const SESSION_KEY = "srs_tab_logged_in";
+
+let students = readArray(STUDENTS_KEY);
+let history = readArray(HISTORY_KEY);
+let editingId = null;
+let photoData = "";
+let page = 1;
+const pageSize = 5;
+
+function readArray(key) {
+  try {
+    const v = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveStudents() {
+  try {
+    localStorage.setItem(STUDENTS_KEY, JSON.stringify(students));
+    return true;
+  } catch (e) {
+    alert("Storage is full. Export a backup or use a smaller photo.");
+    return false;
+  }
+}
+
+function saveHistory() {
+  try {
+    history = history.slice(0, 200);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function logAction(action) {
+  history.unshift({date:new Date().toLocaleString(), action});
+  saveHistory();
+  renderHistory();
+  renderRecent();
+}
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function msg(id, text, good=true) {
+  $(id).textContent = text;
+  $(id).style.color = good ? "#059669" : "#dc2626";
+}
+
+// DEMO LOGIN
+$("loginForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  if (
+    $("username").value.trim() === "admin" &&
+    $("password").value === "admin123"
+  ) {
+    sessionStorage.setItem(SESSION_KEY, "yes");
+    showApp();
+  } else {
+    msg("loginMessage", "Incorrect username or password.", false);
+  }
+});
+
+function showApp() {
+  $("loginPage").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  $("topButtons").classList.remove("hidden");
+  $("date").value ||= new Date().toISOString().slice(0,10);
+  $("loginStatus").textContent = "Signed in";
+  refreshAll();
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  $("app").classList.add("hidden");
+  $("topButtons").classList.add("hidden");
+  $("loginPage").classList.remove("hidden");
+  $("password").value = "";
+  $("loginStatus").textContent = "Signed out";
+}
+
+if (sessionStorage.getItem(SESSION_KEY) === "yes") {
+  showApp();
+}
+
+// TAB NAVIGATION
+document.querySelectorAll("nav button[data-tab]").forEach(button => {
+  button.addEventListener("click", () => openTab(button.dataset.tab));
+});
+
+function openTab(tabId) {
+  document.querySelectorAll(".tab").forEach(section => {
+    section.classList.add("hidden");
+  });
+
+  $(tabId).classList.remove("hidden");
+
+  document.querySelectorAll("nav button[data-tab]").forEach(button => {
+    button.classList.toggle("active", button.dataset.tab === tabId);
+  });
+
+  refreshAll();
+}
+
+// PHOTO PREVIEW
+$("photo").addEventListener("change", function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/") || file.size > 350 * 1024) {
+    alert("Choose an image smaller than 350 KB.");
+    this.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    photoData = reader.result;
+    $("photoPreview").src = photoData;
+    $("photoPreview").style.display = "block";
+  };
+
+  reader.readAsDataURL(file);
+});
+
+// REGISTER / UPDATE STUDENT
+$("studentForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const s = {
+    id: $("sid").value.trim(),
+    name: $("name").value.trim(),
+    email: $("email").value.trim().toLowerCase(),
+    phone: $("phone").value.trim(),
+    gender: $("gender").value,
+    department: $("department").value,
+    year: $("year").value,
+    semester: $("semester").value,
+    date: $("date").value,
+    photo: photoData
+  };
+
+  if (
+    !s.id || !s.name || !s.email || !s.department ||
+    !s.year || !s.semester || !s.date
+  ) {
+    return msg("formMessage", "Complete all required fields.", false);
+  }
+
+  const duplicateId = students.some(x =>
+    x.id.toLowerCase() === s.id.toLowerCase() &&
+    x.id !== editingId
+  );
+
+  const duplicateEmail = students.some(x =>
+    x.email.toLowerCase() === s.email.toLowerCase() &&
+    x.id !== editingId
+  );
+
+  if (duplicateId) {
+    return msg("formMessage", "Student ID already exists.", false);
+  }
+
+  if (duplicateEmail) {
+    return msg("formMessage", "Email already exists.", false);
+  }
+
+  const action = editingId ? "Updated: " : "Registered: ";
+
+  if (editingId) {
+    const i = students.findIndex(x => x.id === editingId);
+
+    if (i < 0) return alert("Student not found.");
+
+    // Keep the existing photo if no new photo is selected.
+    if (!photoData && students[i].photo) {
+      s.photo = students[i].photo;
+    }
+
+    students[i] = s;
+  } else {
+    students.push(s);
+  }
+
+  if (!saveStudents()) return;
+
+  logAction(action + s.id + " - " + s.name);
+  resetForm();
+  refreshAll();
+  msg("formMessage", "Student saved successfully.");
+});
+
+function resetForm() {
+  $("studentForm").reset();
+  editingId = null;
+  photoData = "";
+  $("sid").readOnly = false;
+
+  $("photoPreview").removeAttribute("src");
+  $("photoPreview").style.display = "none";
+
+  $("formTitle").textContent = "＋ Student Registration";
+  $("saveBtn").textContent = "Save Student";
+  $("date").value = new Date().toISOString().slice(0,10);
+  $("formMessage").textContent = "";
+}
+
+// SEARCH
+$("search").addEventListener("input", () => {
+  page = 1;
+  renderStudents();
+});
+
+function filteredStudents() {
+  const q = $("search").value.trim().toLowerCase();
+
+  return students.filter(s =>
+    [s.id,s.name,s.email,s.phone,s.department,s.year,s.semester]
+      .some(v => String(v || "").toLowerCase().includes(q))
+  );
+}
+
+// DISPLAY STUDENTS
+function renderStudents() {
+  const list = filteredStudents();
+  const pages = Math.max(1, Math.ceil(list.length / pageSize));
+
+  page = Math.min(page, pages);
+
+  const visible = list.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+
+  $("studentList").innerHTML = visible.map(s => `
+    <tr>
+      <td>${s.photo
+        ? `<img class="photo" src="${esc(s.photo)}" alt="Photo">`
+        : "—"}</td>
+      <td>${esc(s.id)}</td>
+      <td>${esc(s.name)}</td>
+      <td>${esc(s.email)}</td>
+      <td>${esc(s.phone || "—")}</td>
+      <td>${esc(s.department)}</td>
+      <td>${esc(s.year)}</td>
+      <td>
+        <button class="primary" onclick="viewStudent('${encodeURIComponent(s.id)}')">View</button>
+        <button class="green" onclick="editStudent('${encodeURIComponent(s.id)}')">Edit</button>
+        <button class="red" onclick="deleteStudent('${encodeURIComponent(s.id)}')">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  $("empty").classList.toggle("hidden", list.length > 0);
+  $("listCount").textContent =
+    `${list.length} record${list.length === 1 ? "" : "s"}`;
+
+  $("pages").innerHTML = `
+    <button class="gray" ${page === 1 ? "disabled" : ""}
+      onclick="changePage(${page - 1})">Previous</button>
+    <span>Page ${page} of ${pages}</span>
+    <button class="gray" ${page === pages ? "disabled" : ""}
+      onclick="changePage(${page + 1})">Next</button>
+  `;
+}
+
+function changePage(p) {
+  page = p;
+  renderStudents();
+}
+
+function getStudent(encodedId) {
+  return students.find(s => s.id === decodeURIComponent(encodedId));
+}
+
+// VIEW STUDENT
+function viewStudent(encodedId) {
+  const s = getStudent(encodedId);
+  if (!s) return alert("Student not found.");
+
+  alert(
+    "STUDENT DETAILS\n\n" +
+    "ID: " + s.id +
+    "\nName: " + s.name +
+    "\nEmail: " + s.email +
+    "\nPhone: " + (s.phone || "—") +
+    "\nGender: " + (s.gender || "—") +
+    "\nDepartment: " + s.department +
+    "\nYear: " + s.year +
+    "\nSemester: " + s.semester +
+    "\nRegistration Date: " + s.date
+  );
+}
+
+// EDIT STUDENT
+function editStudent(encodedId) {
+  const s = getStudent(encodedId);
+  if (!s) return alert("Student not found.");
+
+  editingId = s.id;
+
+  $("sid").value = s.id;
+  $("sid").readOnly = true;
+  $("name").value = s.name;
+  $("email").value = s.email;
+  $("phone").value = s.phone || "";
+  $("gender").value = s.gender || "";
+  $("department").value = s.department;
+  $("year").value = s.year;
+  $("semester").value = s.semester;
+  $("date").value = s.date;
+
+  photoData = s.photo || "";
+
+  if (photoData) {
+    $("photoPreview").src = photoData;
+    $("photoPreview").style.display = "block";
+  } else {
+    $("photoPreview").style.display = "none";
+  }
+
+  $("formTitle").textContent = "✏️ Edit Student";
+  $("saveBtn").textContent = "Update Student";
+
+  openTab("students");
+  $("formCard").scrollIntoView({behavior:"smooth"});
+}
+
+// DELETE ONE STUDENT
+function deleteStudent(encodedId) {
+  const s = getStudent(encodedId);
+
+  if (!s || !confirm("Delete student " + s.name + "?")) return;
+
+  students = students.filter(x => x.id !== s.id);
+
+  if (!saveStudents()) return;
+
+  logAction("Deleted: " + s.id + " - " + s.name);
+
+  if (editingId === s.id) resetForm();
+
+  refreshAll();
+}
+
+// DASHBOARD AND REPORTS
+function renderDashboard() {
+  $("total").textContent = students.length;
+
+  $("male").textContent =
+    students.filter(s => s.gender === "Male").length;
+
+  $("female").textContent =
+    students.filter(s => s.gender === "Female").length;
+
+  const departments = {};
+
+  students.forEach(s => {
+    departments[s.department] =
+      (departments[s.department] || 0) + 1;
+  });
+
+  $("deptCount").textContent = Object.keys(departments).length;
+
+  const deptHTML = Object.keys(departments).length
+    ? Object.entries(departments).map(([d,n]) => `
+        <div class="dept-row">
+          <div style="flex:1">
+            <b>${esc(d)}</b>
+            <div class="bar-track">
+              <div class="bar-fill"
+                style="width:${students.length ? Math.max(4,n/students.length*100) : 0}%">
+              </div>
+            </div>
+          </div>
+          <b>${n}</b>
+        </div>
+      `).join("")
+    : "No records yet.";
+
+  $("departmentStats").innerHTML = deptHTML;
+  $("dbCount").textContent = students.length;
+  $("reportTotal").textContent = students.length;
+  $("reportDepartments").innerHTML = deptHTML;
+
+  $("reportList").innerHTML = students.map(s => `
+    <tr>
+      <td>${esc(s.id)}</td>
+      <td>${esc(s.name)}</td>
+      <td>${esc(s.email)}</td>
+      <td>${esc(s.department)}</td>
+      <td>${esc(s.year)}</td>
+      <td>${esc(s.semester)}</td>
+      <td>${esc(s.date)}</td>
+    </tr>
+  `).join("");
+}
+
+function renderHistory() {
+  $("historyList").innerHTML = history.slice(0,50).map(h => `
+    <tr><td>${esc(h.date)}</td><td>${esc(h.action)}</td></tr>
+  `).join("");
+
+  if (!history.length) {
+    $("historyList").innerHTML =
+      "<tr><td colspan='2'>No history yet.</td></tr>";
+  }
+}
+
+function renderRecent() {
+  $("recentActivities").innerHTML =
+    history.slice(0,5).map(h => `
+      <div class="activity-item">
+        <div>${esc(h.action)}</div>
+        <div class="activity-date">${esc(h.date)}</div>
+      </div>
+    `).join("") || "No activities yet.";
+}
+
+function refreshAll() {
+  renderDashboard();
+  renderStudents();
+  renderHistory();
+  renderRecent();
+}
+
+// DOWNLOAD FILES
+function downloadFile(name, content, type) {
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = name;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// EXPORT JSON
+function exportJSON() {
+  downloadFile(
+    "student-backup.json",
+    JSON.stringify({
+      app:"Student Registration System",
+      version:1,
+      exportedAt:new Date().toISOString(),
+      students,
+      history
+    }, null, 2),
+    "application/json"
+  );
+
+  logAction("Exported JSON backup");
+}
+
+// EXPORT CSV
+function exportCSV() {
+  const cols = [
+    "id","name","email","phone","gender",
+    "department","year","semester","date"
+  ];
+
+  const headers = [
+    "Student ID","Full Name","Email","Phone","Gender",
+    "Department","Year","Semester","Registration Date"
+  ];
+
+  function cell(v) {
+    let s = String(v ?? "");
+
+    // Reduce spreadsheet formula injection risk.
+    if (/^[\s]*[=+\-@]/.test(s)) s = "'" + s;
+
+    return '"' + s.replace(/"/g,'""') + '"';
+  }
+
+  const rows = [
+    headers.map(cell).join(","),
+    ...students.map(s => cols.map(c => cell(s[c])).join(","))
+  ];
+
+  downloadFile(
+    "student-report.csv",
+    "\uFEFF" + rows.join("\r\n"),
+    "text/csv;charset=utf-8"
+  );
+
+  logAction("Exported CSV report");
+}
+
+function exportHistory() {
+  downloadFile(
+    "activity-history.json",
+    JSON.stringify(history, null, 2),
+    "application/json"
+  );
+}
+
+// RESTORE JSON BACKUP
+function restoreJSON() {
+  const file = $("restoreFile").files[0];
+
+  if (!file) {
+    return msg("restoreMessage","Select a JSON backup file first.",false);
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    return msg("restoreMessage","File is too large (maximum 10 MB).",false);
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      const imported = Array.isArray(data) ? data : data.students;
+
+      if (!Array.isArray(imported)) {
+        throw Error("Student list not found.");
+      }
+
+      if (!imported.every(s =>
+        s &&
+        typeof s.id === "string" &&
+        typeof s.name === "string" &&
+        typeof s.email === "string" &&
+        typeof s.department === "string" &&
+        typeof s.year === "string" &&
+        typeof s.semester === "string" &&
+        typeof s.date === "string"
+      )) {
+        throw Error("Invalid student data in backup.");
+      }
+
+      const ids = imported.map(s => s.id.toLowerCase());
+
+      if (new Set(ids).size !== ids.length) {
+        throw Error("Duplicate student IDs found.");
+      }
+
+      if (!confirm(
+        "Replace current records with " +
+        imported.length + " backup records?"
+      )) return;
+
+      const oldStudents = students;
+      const oldHistory = history;
+
+      students = imported;
+
+      if (!saveStudents()) {
+        students = oldStudents;
+        history = oldHistory;
+        return;
+      }
+
+      if (Array.isArray(data.history)) {
+        history = data.history;
+      }
+
+      logAction("Restored " + students.length + " student records");
+      refreshAll();
+      msg("restoreMessage","Backup restored successfully.");
+    } catch (err) {
+      msg("restoreMessage","Restore failed: " + err.message,false);
+    }
+
+    $("restoreFile").value = "";
+  };
+
+  reader.readAsText(file);
+}
+
+// SETTINGS: DARK / LIGHT MODE
+function toggleDark() {
+  document.body.classList.toggle("dark");
+
+  try {
+    localStorage.setItem(
+      "srs_dark",
+      String(document.body.classList.contains("dark"))
+    );
+  } catch (e) {}
+}
+
+try {
+  if (localStorage.getItem("srs_dark") === "true") {
+    document.body.classList.add("dark");
+  }
+} catch (e) {}
+
+// DELETE ALL STUDENTS
+function deleteEverything() {
+  if (!students.length) {
+    return alert("No student records to delete.");
+  }
+
+  if (!confirm("Delete ALL student records? Export a backup first.")) return;
+  if (!confirm("Are you absolutely sure?")) return;
+
+  students = [];
+
+  if (!saveStudents()) return;
+
+  resetForm();
+  logAction("Deleted all student records");
+  refreshAll();
+
+  alert("All student records deleted.");
+}
+
+$("loginStatus").textContent =
+  sessionStorage.getItem(SESSION_KEY) === "yes"
+    ? "Signed in"
+    : "Signed out";
+</script>
+</body>
+</html>
